@@ -38,14 +38,6 @@ const Member = () => {
         cell,
     });
 
-    const handleEditClick = (row) => {
-        alert(`Editing ${row.Username}`); 
-    };
-
-    const handleDeleteClick = (row) => {
-        alert(`Deleting ${row.Username}`); 
-    };
-
     const columns = [
         createColumn('No.', (row, index) => index + 1),
         createColumn('Role', row => row.Role),
@@ -58,8 +50,8 @@ const Member = () => {
         createColumn('Date', row => new Date(row.Date).toLocaleDateString('th-TH')),
         createColumn('Action', null, true, row => (
             <div className="action-buttons">
-                <Button variant="warning" onClick={() => handleEditClick(row)}><BsPencilSquare /></Button>
-                <Button variant="danger" onClick={() => handleDeleteClick(row)}><BsTrash /></Button>
+                <Button variant="warning" onClick={() => handleEdit(row.Username)}><BsPencilSquare /></Button>
+                <Button variant="danger" onClick={() => handleDelete(row.Username)}><BsTrash /></Button>
             </div>
         )),
     ];
@@ -98,7 +90,7 @@ const Member = () => {
 
     useEffect(()=>{
         if(show && user){
-            axios.post(`${url}admin/member/edit`, { user }).then((res)=>{
+            axios.post(`${url}admin/member/edit`,  { user } ).then((res)=>{
                 setEdit(res.data)
                 setModelMember(res.data)
             }).catch((err) => {

@@ -225,11 +225,11 @@ router.post('/admin/member/insert', async (req,res) => {
 
 router.post('/admin/member/edit', async (req,res) => {
     try{
-        const { Username } = req.body
+        const { user } = req.body
         const queryMember = "SELECT * FROM Member WHERE Username = ?"
-        const [results] = await db.promise().query(queryMember, Username)
+        const [results] = await db.promise().query(queryMember, [user])
         if (results.length > 0) {
-            res.json(results)
+            return res.status(200).json(results[0])
         }else{
             return res.status(400).json({ message : 'QueryMember By Username Error!!'})
         }
@@ -241,19 +241,22 @@ router.post('/admin/member/edit', async (req,res) => {
 
 router.post('/admin/member/update', async (req,res) => {
     try{
-        const OldEmail = req.body.OldEmail
-        const { Role, Username, Email, FirstName, LastName, Sex, Phone} = req.body
+        const { OldEmail , newData } = req.body
         // CheckValue
-        if(!Email.trim() || !FirstName.trim() || !LastName.trim() || !Sex.trim() || !Phone.trim()){ 
+        if(!newData.Role || !newData.Email || !newData.FirstName || !newData.LastName || !newData.Sex || !newData.Phone){ 
             return res.status(400).json({ message : 'Value is required!!' }) 
         }
-        
         //Update
         const updateMember = `UPDATE member 
                                 SET Role = ?, Email = ?, FirstName = ?, LastName = ?, Sex = ?, Phone = ? 
                                 WHERE Username = ?`
-        if(OldEmail === Email){
-            const [results] = await db.promise().query(updateMember, [Role, Email, FirstName, LastName, Sex, Phone, Username]);
+        if(OldEmail === newData.Email){
+            const [results] = await db.promise().query(updateMember, 
+                [
+                    newData.Role, newData.Email, newData.FirstName, 
+                    newData.LastName, newData.Sex, 
+                    newData.Phone, newData.Username
+                ]);
 
             if (results.affectedRows > 0) {  // ตรวจสอบว่ามีการอัพเดตจริงหรือไม่
                 return res.status(200).json({ message: 'Update Member By Username success!!' });
@@ -262,11 +265,17 @@ router.post('/admin/member/update', async (req,res) => {
             }
         }else{
             const checkEmail = "SELECT * FROM member WHERE Email = ?"
-            const [emailResults] = await db.promise().query(checkEmail,Email)
+            const [emailResults] = await db.promise().query(checkEmail,newData.Email)
             if(emailResults.length > 0){
                 return res.status(400).json({ message: 'This email is already in use by another user in the system.' });
             }else{
-                const [results] = await db.promise().query(updateMember, [Role, Email, FirstName, LastName, Sex, Phone, Username]);
+                const [results] = await db.promise().query(updateMember, 
+                    [
+                        newData.Role, newData.Email, 
+                        newData.FirstName, newData.LastName, 
+                        newData.Sex, newData.Phone, 
+                        newData.Username
+                    ]);
 
                 if (results.affectedRows > 0) {  // ตรวจสอบว่ามีการอัพเดตจริงหรือไม่
                     return res.status(200).json({ message: 'Update Member By Username success!!' });
@@ -289,7 +298,7 @@ router.post('/admin/member/delete', async (req,res) => {
         if(results.affectedRows > 0){
             return res.status(200).json({ message : 'Delete Member Success!!'})
         }else{
-            return res.status(200).json({ message : 'Delete Member Error!!'})
+            return res.status(400).json({ message : 'Delete Member Error!!'})
         }
     }catch(err){
         console.log(err)
