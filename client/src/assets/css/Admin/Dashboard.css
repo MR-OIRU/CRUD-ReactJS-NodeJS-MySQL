@@ -1,0 +1,68 @@
+.customDashboard{
+    background-color: #747474;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    .customDetail{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .HeadMember,.HeadProduct,.HeadSales,.HeadProfit,.HeadType{
+            width: 340px;
+            background-color: black;
+            border-radius: 5px;
+            color: white;
+            h5{
+                text-align: center;
+                padding: 10px;
+            }
+        }
+        .Sales,.Profit{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            width: 340px;
+            height: 400px;
+            padding: 30px;
+            border-radius: 5px;
+        }
+        .Member{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            width: 340px;
+            border-radius: 5px;
+            background-color: black;
+            color: white;
+            h1{
+                text-align: center;
+            }
+        }
+
+        .Product{
+            display: flex;
+            align-items: center;
+            background-color: black;
+            width: 340px;
+            height: 400px;
+            border-radius: 5px;
+            #chart{
+                width: 340px;
+                h4{
+                    color: white;
+                    text-align: center;
+                    padding-top: 30px;
+                    padding-bottom: 30px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:1200px) {
+
+}
