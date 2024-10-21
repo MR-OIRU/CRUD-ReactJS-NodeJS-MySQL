@@ -26,6 +26,7 @@ const Member = () => {
     const [edit, setEdit] = useState({})
     const [modelMember, setModelMember] = useState({})
 
+    // Query All Member
     useEffect(()=>{
         axios.get(`${url}admin/member`).then((res)=>{
             if(res.data.message === 'Role : None'){
@@ -66,6 +67,7 @@ const Member = () => {
     ];
     
     const [records, setRecords] = useState(member)
+
     const handleFilter = (e) =>{
         const value = e.target.value.toLowerCase();
         const newData = member.filter(row => {
@@ -82,6 +84,8 @@ const Member = () => {
         })
         setRecords(newData)
       }
+
+    // EDIT MEMBER
     const handleEdit = (Username) => {
         setUser(Username)
         setShow(true);
@@ -104,10 +108,6 @@ const Member = () => {
           ...prev,[name]: value
         }))
       }
-
-    const handleDelete = (Username) => {
-        alert(`Deleting ${Username}`); 
-    };
 
     const handleSubmit = (e) =>{
         e.preventDefault()
@@ -146,6 +146,46 @@ const Member = () => {
             console.log(err.response.data.message)
         })
     }
+
+    // Delete Member
+    const handleDelete = (Username) => {
+        withReactContent(Swal).fire({
+            title: "Are you sure?",
+            html: `Do you want to delete <br> the data of <span style="font-size: 1.25em; font-weight: bold;">${Username}</span> ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#04AA6D",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post(`${url}admin/member/delete`, {Username}).then((res)=>{
+                    if(res.data.message === 'Delete Member Success!!'){
+                        Swal.fire({
+                            title: "Deleted!",
+                            html: `The data of <span style="font-size: 1.25em; font-weight: bold;">${Username}</span> has been deleted.`,
+                            icon: "success",
+                            confirmButtonColor: "#d33"
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                          });
+                    }
+                }).catch((err)=>{
+                    if(err.response.data.message === 'Delete Member Error!!'){
+                        withReactContent(Swal).fire({
+                            icon: "error",
+                            title: "Delete failed",
+                            html: `Delete Member By <span style="font-size: 1.25em; font-weight: bold;">${Username}</span> Error!!`,
+                            showConfirmButton: false,
+                            timer: 3000
+                          }).then(() => document.querySelector('.customModal').focus());
+                    }
+                })
+            }
+          });
+    };
   return (
     <>
         <div className="customMember">
