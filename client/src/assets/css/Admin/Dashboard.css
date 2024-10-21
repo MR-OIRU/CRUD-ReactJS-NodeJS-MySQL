@@ -9,6 +9,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        .customCol{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         .HeadMember,.HeadProduct,.HeadSales,.HeadProfit,.HeadType{
             width: 340px;
             background-color: black;

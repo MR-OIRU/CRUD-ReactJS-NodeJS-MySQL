@@ -143,16 +143,16 @@ function isAdmin(req,res,next){
 
 router.get('/admin' ,isAdmin, async (req,res) => {
     try{
-        res.send('page Admin')
-    }catch(err){
-        console.log(err)
-        res.status(500).json({ message : 'Server Error!!'})
-    }
-})
+        const countMember = "SELECT COUNT(*) AS total_members FROM member";
+        const [results] = await db.promise().query(countMember);
 
-router.post('/admin', async (req,res) => {
-    try{
-        res.send('Hello admin')
+        if (results.length > 0) {
+            // ส่งผลลัพธ์กลับไปยังลูกค้าเพียงครั้งเดียว
+            return res.status(200).json({ total_members: results[0].total_members });
+        } else {
+            // ส่งข้อผิดพลาดกลับไปยังลูกค้าเพียงครั้งเดียว
+            return res.status(400).json({ message: 'QueryMember Error!!' });
+        }
     }catch(err){
         console.log(err)
         res.status(500).json({ message : 'Server Error!!'})
