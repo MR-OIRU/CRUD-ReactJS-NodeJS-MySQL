@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import DataTable from 'react-data-table-component';
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { Button, Row, Col, Container, Modal, Form } from 'react-bootstrap'
-import DataTable from 'react-data-table-component';
+import InsertMember from './InsertMember';
 
 import axios from 'axios'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-import '../../assets/css/Admin/Member.css'
+import '../../../assets/css/Admin/Member.css'
 
 const Member = () => {
     const url = import.meta.env.VITE_API_URL
     const navigate = useNavigate();
     axios.defaults.withCredentials = true
+    
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
 
     const [member, setMember] = useState([])
+    const [user, setUser] = useState(null)
+    const [edit, setEdit] = useState({})
+    const [modelMember, setModelMember] = useState({})
 
     useEffect(()=>{
         axios.get(`${url}admin/member`).then((res)=>{
@@ -30,6 +38,7 @@ const Member = () => {
               }
         }).catch((err) => console.log(err))
     },[])
+
 
     const createColumn = (name, selector = null, sortable = true, cell = null) => ({
         name,
@@ -57,7 +66,6 @@ const Member = () => {
     ];
     
     const [records, setRecords] = useState(member)
-
     const handleFilter = (e) =>{
         const value = e.target.value.toLowerCase();
         const newData = member.filter(row => {
@@ -74,15 +82,6 @@ const Member = () => {
         })
         setRecords(newData)
       }
-
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-
-    const [user, setUser] = useState(null)
-    const [edit, setEdit] = useState({})
-    const [modelMember, setModelMember] = useState({})
-
     const handleEdit = (Username) => {
         setUser(Username)
         setShow(true);
@@ -90,7 +89,7 @@ const Member = () => {
 
     useEffect(()=>{
         if(show && user){
-            axios.post(`${url}admin/member/edit`,  { user } ).then((res)=>{
+            axios.post(`${url}admin/member/edit`, { user }).then((res)=>{
                 setEdit(res.data)
                 setModelMember(res.data)
             }).catch((err) => {
@@ -155,7 +154,8 @@ const Member = () => {
                     <Col>
                     <h1>Member List</h1>
                         <div className="customTable">
-                            <div className="text-end mb-2">
+                            <div className="customInput">
+                                <InsertMember/>
                                 <input type='text' className="form" placeholder="Search..." onChange={handleFilter}/>
                             </div>
                             <DataTable
@@ -177,8 +177,7 @@ const Member = () => {
                 </Row>
             </Container>
         </div>
-        
-        {/* Modal */}
+
         <Modal 
             show={show} 
             onHide={handleClose}
@@ -269,7 +268,6 @@ const Member = () => {
             </Form>
         </Modal.Body>
       </Modal>
-
     </>
   )
 }

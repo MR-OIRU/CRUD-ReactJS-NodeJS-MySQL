@@ -180,7 +180,7 @@ router.post('/admin/member/insert', async (req,res) => {
             LastName,Sex,Phone,Password,confirmPassword
         } = req.body
         const normalizedEmail = Email.toLowerCase();
-        // CheckUsername
+        /*// CheckUsername
         if(!Username){ return res.status(400).json({ message : 'Username is required!!' }) }
 
         // CheckEmail
@@ -193,7 +193,7 @@ router.post('/admin/member/insert', async (req,res) => {
             if( Password !== confirmPassword){
                 return res.status(400).json({ message : 'password not match' })
             }
-        }
+        }*/
 
         // Check in database
         const CheckMember = ' SELECT * FROM member WHERE Username = ? OR Email = ? '

@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const session = require('express-session')
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
+require('dotenv').config();
 
 const router = require('./router/myRouter')
 const server = express()
@@ -19,8 +20,10 @@ server.use(session({
     saveUninitialized: false,
     cookie: { secure: false }
 }));
+
+const url = process.env.VITE_API_URL_CORS;
 server.use(cors({
-    origin: 'http://localhost:5173', credentials: true
+    origin: url , credentials: true
 }))
 
 server.use(router)

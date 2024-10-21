@@ -1,6 +1,6 @@
 import React from 'react'
 import NavigationBar from '../../components/Admin/NavigationBar';
-import Member from '../../components/Admin/Member';
+import Member from '../../components/Admin/Member/Member';
 
 const AdminMember = () => {
     
