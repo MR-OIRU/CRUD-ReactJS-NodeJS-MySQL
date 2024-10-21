@@ -13,13 +13,7 @@ dist-ssr
 *.local
 # Environment variables
 .env
-<<<<<<< HEAD
 
-=======
-# Package files
-package-lock.json
-package.json
->>>>>>> 1265728235b7b55d7fbbe275163e07175539d85f
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
