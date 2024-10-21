@@ -1,6 +1,10 @@
 function Validation(values) {
     let error = {}
+<<<<<<< HEAD
     const eng_number_pattern  = /^[A-Za-z0-9._-]+$/
+=======
+    const eng_number_pattern  = /^[A-Za-z0-9]+$/
+>>>>>>> 1265728235b7b55d7fbbe275163e07175539d85f
     const eng_thai_pattern  = /^[A-Za-zก-๙]+$/
     const email_pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     const password_pattern = /^[A-Za-z0-9!@]+$/
@@ -9,8 +13,13 @@ function Validation(values) {
     if(values.Username === ""){
         error.Username = ""
     }else if(!eng_number_pattern.test(values.Username)){
+<<<<<<< HEAD
         error.Username = "Please enter [ English Number Or . - _ ]"
     }else if(values.Username.length < 3){
+=======
+        error.Username = "Please enter your Username [ English  Or Number]"
+    }else if(values.Username.length < 4){
+>>>>>>> 1265728235b7b55d7fbbe275163e07175539d85f
         error.Username = "Username is too short"
     }else{
         error.Username = "Info submitted";
@@ -19,7 +28,11 @@ function Validation(values) {
     if(values.FirstName === ""){
         error.FirstName = ""
     }else if(!eng_thai_pattern.test(values.FirstName)){
+<<<<<<< HEAD
         error.FirstName = `Please enter [ English  Or Thai ]`
+=======
+        error.FirstName = `Please enter your FirstName [ English  Or Thai]`
+>>>>>>> 1265728235b7b55d7fbbe275163e07175539d85f
     }else if(values.FirstName.length < 3){
         error.FirstName = "FirstName is too short"
     }else{
@@ -29,7 +42,11 @@ function Validation(values) {
     if(values.LastName === ""){
         error.LastName = ""
     }else if(!eng_thai_pattern.test(values.LastName)){
+<<<<<<< HEAD
         error.LastName = `Please enter [ English  Or Thai ]`
+=======
+        error.LastName = `Please enter your LastName [ English  Or Thai]`
+>>>>>>> 1265728235b7b55d7fbbe275163e07175539d85f
     }else if(values.LastName.length < 3){
         error.LastName = "LastName is too short"
     }else{
@@ -57,7 +74,11 @@ function Validation(values) {
     if (values.Password === "") {
         error.Password = "";
     } else if (!password_pattern.test(values.Password)) {
+<<<<<<< HEAD
         error.Password = "Please enter [ English , Number Or ! @ ]";
+=======
+        error.Password = "Please enter your Password [ English , Number Or ! @ ]";
+>>>>>>> 1265728235b7b55d7fbbe275163e07175539d85f
     } else if (values.Password.length < 4) {
         error.Password = "Password is too short";
     } else {
@@ -83,6 +104,7 @@ function Validation(values) {
     else{
         error.Sex = "Info submitted";
     }
+<<<<<<< HEAD
 
     if(values.Role === "default"){
         error.Role = "";
@@ -92,6 +114,8 @@ function Validation(values) {
     else{
         error.Role = "Info submitted";
     }
+=======
+>>>>>>> 1265728235b7b55d7fbbe275163e07175539d85f
    return error;
 }
 
